@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Http\Resources\Website;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class StoreFrontResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'name' => $this->name,
+            'banner' => $this->banner,
+            'campaigns' => CampaignListResource::collection($this->whenLoaded('campaigns'))
+        ];
+    }
+}

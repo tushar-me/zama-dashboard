@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@source "../views";
+@custom-variant dark (&:where(.amar-dark, .amar-dark *));
+@theme {
+  --color-primary: var(--amar-primary-950);
+}
+body {
+    font-family: "Nunito Sans", sans-serif;
+}
+.p-dialog {
+  overflow: hidden !important;
+  border-radius: 22px !important;
+}
