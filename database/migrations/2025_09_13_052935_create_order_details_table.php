@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('combined_order_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('order_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('product_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUuid('category_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignUuid('mockup_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignUuid('campaign_id')->nullable()->constrained()->nullOnDelete();
-            $table->json('artworks')->nullable();
-            $table->json('product_images')->nullable();
+            $table->string('product_image')->nullable();
             $table->string('color')->nullable();
             $table->string('size')->nullable();
             $table->integer('quantity')->nullable();

@@ -13,17 +13,26 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('combined_order_id')
-            ->constrained()
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
-            $table->foreignUuid('store_id')
-            ->nullable()
-            ->constrained()
-            ->nullOnDelete();
-            $table->decimal('total_amount')->nullable();
-			$table->decimal('store_balance')->default(0);
-			$table->decimal('admin_balance')->default(0);
+            $table->string('order_code')->nullable();
+            $table->foreignUuid('customer_id')->nullable()->nullOnDelete();
+            $table->string('guest_id')->nullable();
+            $table->string('paypal_order_id')->nullable();
+            $table->json('payment_details')->nullable();
+            $table->foreignUuid('order_status_id')->nullable()->constrained('order_statuses')->nullOnDelete();
+            $table->foreignUuid('country_id')->nullable()->constrained('countries')->nullOnDelete();
+            $table->foreignUuid('state_id')->nullable()->constrained('states')->nullOnDelete();
+            $table->foreignUuid('city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->string('payment_method')->nullable();
+            $table->integer('tax_percentage')->nullable();
+            $table->decimal('shipping_charge')->nullable();
+            $table->decimal('shipping_warranty')->nullable();
+            $table->decimal('rush_production')->nullable();
+            $table->decimal('tax')->nullable();
+            $table->decimal('vat')->nullable();
+            $table->decimal('sub_total')->nullable();
+            $table->decimal('grand_total')->nullable();
+            $table->enum('payment_status', ['paid', 'pending', 'cancelled'])->default("pending");
+            $table->text('status_note')->nullable();
             $table->timestamps();
         });
     }

@@ -15,14 +15,7 @@ class FileUploadAction {
     }
     public function upload($file, $raw = false, $existingFile = null,$width = 1200, $height = 1200, $disk = null, ) {
         $disk = $disk ?? config('filesystems.default');
-        $folder = null;
-        if (auth()->guard('admin')->check()) {
-            $folder = 'assets';
-        } elseif (request()->user()) {
-            $folder = storeCode();
-        } else {
-            $folder = 'files';
-        }
+        $folder = 'assets';
         if ($raw) {
             $extension = $file->extension();
             $name = Str::uuid() . '.' . $extension;

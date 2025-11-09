@@ -9,7 +9,7 @@ use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
-class PayalController extends Controller
+class PaypalController extends Controller
 {
     public function paymentSuccess(Request $request)
     {

@@ -12,23 +12,50 @@ class Order extends Model
     use HasUuids;
 
     protected $fillable = [
-        'combined_order_id',
-        'store_id',
-        'total_amount',
-        'store_balance',
-        'admin_balance',
+        'order_code',
+        'customer_id',
+        'guest_id',
+        'country_id',
+        'state_id',
+        'city_id',
+        'paypal_order_id',
+        'payment_details',
+        'order_status_id',
+        'payment_method',
+        'tax_percentage',
+        'shipping_charge',
+        'shipping_warranty',
+        'rush_production',
+        'tax',
+        'vat',
+        'sub_total',
+        'grand_total',
+        'payment_status',
+        'status_note',
     ];
-
-    public function combinedOrder(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(CombinedOrder::class);
+        return $this->belongsTo(Customer::class);
     }
 
-    public function store(): BelongsTo
+    public function country(): BelongsTo
     {
-        return $this->belongsTo(Store::class);
+        return $this->belongsTo(Country::class);
     }
 
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(OrderStatus::class);
+    }
     public function orderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class);

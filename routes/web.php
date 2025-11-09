@@ -13,12 +13,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::resource('badge', \App\Http\Controllers\Admin\BadgeController::class);
     Route::resource('color', \App\Http\Controllers\Admin\ColorController::class);
     Route::resource('size', \App\Http\Controllers\Admin\SizeController::class);
-    Route::resource('badge-charge', \App\Http\Controllers\Admin\BadgeMockupChargeController::class);
-    Route::resource('mockup', \App\Http\Controllers\Admin\MockupController::class);
-    Route::resource('mockup-side', \App\Http\Controllers\Admin\MockupSideController::class);
-    Route::resource('variation-price', \App\Http\Controllers\Admin\MockupVariationController::class);
-    Route::resource('vendor', \App\Http\Controllers\Admin\VendorController::class);
-    Route::resource('store', \App\Http\Controllers\Admin\StoreController::class);
     Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
     Route::resource('campaign', \App\Http\Controllers\Admin\CampaignController::class);
     Route::resource('country', \App\Http\Controllers\Admin\CountryController::class);

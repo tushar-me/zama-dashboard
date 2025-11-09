@@ -90,16 +90,16 @@ const items = ref([
 
 <template>
   <ul 
-    class="w-64 fixed top-14 bottom-2 -left-64 lg:left-1 bg-primary p-4 shadow-md rounded-2xl z-20 overflow-y-auto space-y-2">
+    class="w-56 fixed top-0 bottom-0 -left-64 lg:left-1 p-2 pe-3 z-20 overflow-y-auto space-y-1">
     <li v-for="(item, index) in items" :key="index" class="relative">
       <!-- Menu header -->
       <div
-        class="flex items-center justify-between px-4 py-3 text-stone-100 hover:bg-neutral-900 cursor-pointer rounded-lg transition"
+        class="flex items-center justify-between px-2 ps-4 py-2 text-gray-900 hover:bg-white hover:shadow cursor-pointer rounded-xl transition"
         @click="item.items ? toggle(index) : router.visit(item.to!)"
       >
-        <div class="flex items-center gap-3">
-          <Icon :name="item.icon" class="text-xl" />
-          <span class="font-normal text-lg">{{ item.label }}</span>
+        <div class="flex items-center gap-2">
+          <Icon :name="item.icon" class="text-lg" />
+          <span class="font-normal text-base">{{ item.label }}</span>
         </div>
       </div>
 
@@ -112,12 +112,12 @@ const items = ref([
         :transition="{ type: 'tween', duration: 0.3 }"
         class="overflow-hidden"
       >
-        <div class="space-y-1 p-2 bg-neutral-800 rounded-xl shadow mt-2">
+        <div class="space-y-1 p-2 bg-stone-200 rounded-2xl shadow mt-2">
           <Link
             v-for="(sub, i) in item.items"
             :key="i"
             :href="sub.to"
-            class="px-3 py-2 rounded-lg hover:bg-neutral-700 text-stone-100 flex items-center gap-2 transition"
+            class="flex items-center gap-2 px-2 ps-4 py-2 text-gray-900 hover:bg-white hover:shadow cursor-pointer rounded-xl transition"
           >
             <Icon :name="sub.icon" class="text-base" />
             <span>{{ sub.label }}</span>

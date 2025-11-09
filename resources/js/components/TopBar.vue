@@ -1,6 +1,6 @@
 
 <template>
-    <nav class="fixed top-0 w-full bg-white shadow z-10 p-2 hidden lg:flex items-center justify-between">
+    <nav class="fixed hidden top-0 w-full bg-white shadow z-10 p-2 items-center justify-between">
         <!-- <img class="h-10 w-auto" src="@/assets/images/tentomart-dark.png" alt="Tentomart"> -->
         <div class="">
             <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" @click="toggle" aria-haspopup="true" aria-controls="overlay_menu" shape="circle" />
