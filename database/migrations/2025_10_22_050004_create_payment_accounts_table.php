@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payment_accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('vendor_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignUuid('customer_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignUuid('payment_method_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('account_name')->nullable();
             $table->string('account_number')->nullable(); 

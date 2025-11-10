@@ -3,10 +3,10 @@
     import TopBar from '@/components/TopBar.vue';
 </script>
 <template>
-    <main class="min-h-screen bg-stone-100">
+    <main class="bg-stone-100">
         <TopBar />
         <SideBar />
-        <div class="lg:ml-56 p-2 lg:p-4 bg-white shadow-md">
+        <div class="lg:ml-60 p-2 lg:p-4 bg-white shadow-md min-h-screen">
             <slot />
         </div>
     </main>

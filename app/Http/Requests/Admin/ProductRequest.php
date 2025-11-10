@@ -62,6 +62,10 @@ class ProductRequest extends FormRequest
             'status' => 'required|in:published,unpublished,resctricted',
             'published_at' => 'nullable|date',
             'tags' => 'nullable|array',
+            'variations' => 'nullable|array',
+            'size_chart' => 'nullable|array',
+            'size_chart.columns' => 'array',
+            'size_chart.rows' => 'array',
         ];
     }
 }

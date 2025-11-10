@@ -30,7 +30,7 @@ const submit = () => {
                 <div v-animateonscroll="{ enterClass: 'animate-enter fade-in-10 zoom-in-75 animate-duration-1000' }" class="flex-1">
                     <div class="text-center">
                         <div class="flex justify-center mx-auto">
-                            <img class="w-auto h-7 sm:h-10" src="@/assets/images/amar-ecommerce.png" alt="AmarEcommerce">
+                            <img class="w-auto h-7 sm:h-10" src="" alt="AmarEcommerce">
                         </div>
                         <p class="mt-3 text-gray-500 dark:text-gray-300">Sign in to access Dashboard</p>
                     </div>

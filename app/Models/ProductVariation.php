@@ -10,7 +10,7 @@ class ProductVariation extends Model
 {
     use HasUuids;
 
-    protected $fillable = ['size_id','product_id','price','sell_price','sku','status'];
+    protected $fillable = ['size_id','product_id','compare_price','price','sku','status'];
 
     public function product(): BelongsTo
     {

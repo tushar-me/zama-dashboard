@@ -22,10 +22,8 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'vendor_id',
-        'store_id',
         'campaign_id',
-        'mockup_id',
+        'collection_id',
         'category_id',
         'brand_id',
         'code',
@@ -99,7 +97,12 @@ class Product extends Model
     protected static function booted()
     {
         static::creating(function ($product) {
+            $product->creator()->associate(auth('admin')->user()->id);
+            $product->editor()->associate(auth('admin')->user()->id);
             $product->code = GenerateUniqueCode::for('products', 'code', 4);
+        });
+        static::updating(function ($mockup) {
+            $mockup->editor()->associate(auth('admin')->user()->id);
         });
     }
     public function getSlugOptions() : SlugOptions
@@ -108,45 +111,21 @@ class Product extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
-      public function artwork(): Attribute
-      {
-            return new Attribute(
-                get: fn ($value) => $value ? Storage::url($value) : null,
-                set: fn ($value) => $value,
-            );
-      }
-    /**
-     * Get the vendor that owns the product.
-     */
-    public function vendor(): BelongsTo
+    public function coverImage(): Attribute
     {
-        return $this->belongsTo(Vendor::class);
+        return new Attribute(
+            get: fn ($value) => $value ? Storage::url($value) : null,
+            set: fn ($value) => $value,
+        );
     }
-
-    /**
-     * Get the store that owns the product.
-     */
-    public function store(): BelongsTo
+    public function measurementGuide(): Attribute
     {
-        return $this->belongsTo(Store::class);
+        return new Attribute(
+            get: fn ($value) => $value ? Storage::url($value) : asset('noimage.webp'),
+            set: fn ($value) => $value,
+        );
     }
-
-    /**
-     * Get the campaign that owns the product.
-     */
-    public function campaign(): BelongsTo
-    {
-        return $this->belongsTo(Campaign::class);
-    }
-
-    /**
-     * Get the mockup that owns the product.
-     */
-    public function mockup(): BelongsTo
-    {
-        return $this->belongsTo(Mockup::class);
-    }
-
+  
     /**
      * Get the category that owns the product.
      */
@@ -172,54 +151,26 @@ class Product extends Model
         return $this->hasMany(ProductVariation::class);
     }
 
-    public function productSides(): HasMany
-    {
-        return $this->hasMany(ProductSide::class);
-    }
-
     public function colors(): HasMany
     {
         return $this->hasMany(ProductColor::class);
-    }
-     public function defaultColor(): HasOne
-     {
-        return $this->hasOne(ProductColor::class)
-            ->orderByDesc('is_default') 
-            ->orderBy('id');           
-     }
-    public function defaultVariation(): HasOne
-    {
-        return $this->hasOne(ProductVariation::class)->oldest();
-    }
-     public function defaultSide(): HasOne
-     {
-        return $this->hasOne(ProductSide::class)
-            ->orderByDesc('is_default') 
-            ->orderBy('created_at');           
-     }
-    public function coverImage(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                $defaultColorImage = $this->colors()
-                    ->where('is_default', true)
-                    ->first()?->images()
-                    ->latest()
-                    ->first()
-                    ?->image;
-                if ($defaultColorImage) {
-                    return $defaultColorImage;
-                }
-                return $this->images()
-                    ->latest()
-                    ->first()
-                    ?->image;
-                }
-        );
     }
 
     public function orderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class);
+    }
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'created_by');
+    }
+    public function editor(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'last_updated_by');
+    }
+
+    public function sizeChart(): HasOne
+    {
+        return $this->hasOne(SizeChart::class, 'mockup_id');
     }
 }

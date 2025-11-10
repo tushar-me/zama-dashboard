@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('campaigns', function (Blueprint $table) {
+        Schema::create('collections', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->index();
             $table->string('slug')->unique();
@@ -43,7 +43,7 @@ return new class extends Migration
             // Categorization
             $table->json('tags')->nullable();
             $table->timestamps();
-            $table->fullText(['name', 'description', 'meta_title', 'meta_description',]);
+            $table->fullText(['name', 'description', 'meta_title']);
         });
     }
 
@@ -52,6 +52,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campaigns');
+        Schema::dropIfExists('collectoins');
     }
 };

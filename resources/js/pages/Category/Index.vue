@@ -138,26 +138,6 @@ const onDelete = (id: string | undefined) => {
                     {{ data?.editor?.name }}
                 </template>
             </Column>
-             <Column field="us_charge" header="US Charge" style="min-width: 10rem">
-                <template #body="{ data }">
-                    {{ data?.shipping_charge?.us_charge }}
-                </template>
-            </Column>
-            <Column field="us_add_charge_per_item" header="Us Add Charge Per Item" style="min-width: 10rem">
-                <template #body="{ data }">
-                    {{ data?.shipping_charge?.us_add_charge_per_item }}
-                </template>
-            </Column>
-            <Column field="worldwide_charge" header="Worldwide Charge" style="min-width: 10rem">
-                <template #body="{ data }">
-                    {{ data?.shipping_charge?.worldwide_charge }}
-                </template>
-            </Column>
-            <Column field="worldwide_add_charge_per_item" header="Worldwide Add Charge Per Item" style="min-width: 10rem">
-                <template #body="{ data }">
-                    {{ data?.shipping_charge?.worldwide_add_charge_per_item }}
-                </template>
-            </Column>
             <Column field="status" header="Status" style="min-width: 5rem">
                 <template #body="{ data }">
                     {{ data?.status }}

@@ -14,14 +14,9 @@ return new class extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignUuid('campaign_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignUuid('product_side_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignUuid('product_color_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->string('side')->nullable();
             $table->string('color_code')->nullable();
-            $table->string('mockup')->nullable();
             $table->string('image')->nullable();
-            $table->boolean('is_default')->default(false);
             $table->timestamps();
         });
     }

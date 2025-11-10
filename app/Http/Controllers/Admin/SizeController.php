@@ -23,7 +23,7 @@ class SizeController extends Controller
         ->with(['creator:id,name', 'editor:id,name'])
         ->orderBy('order_level')
         ->search(['name', 'creator.name', 'editor.name'], request()->search);
-        return inertia('Mockup/Variation/Size', [
+        return inertia('Product/Variation/Size', [
             'sizes' => SizeResource::collection($sizes),
             'search' => request()->search,
         ]);

@@ -10,10 +10,6 @@ defineOptions({ layout: AppLayout });
 
 const props = defineProps<{
     categories: Category[],
-    badges: Badge[],
-    colors: {
-        data: Color[]
-    },
     sizes: any,
     errors: any,
 }>()
@@ -27,22 +23,15 @@ watch(selectedCategory, (newVal: Category | null) => {
 const form = useForm({
     name: '',
     description: '',
-    image: '',
-    model: '',
+    cover_image: '',
+    hover_image: '',
     measurement_guide: '',
-    type: 'default_print',
     cost: undefined,
     price: undefined,
-    sell_price: undefined,
+    compare_price: undefined,
     order_level: 0,
     status: true,
     category_id: '',
-    colors: [],
-    us_charge: 0,
-    us_add_charge_per_item: 0,
-    worldwide_charge: 0,
-    worldwide_add_charge_per_item: 0,
-    is_free: false,
     variations: [],
     video_url: null,
     size_chart: {
@@ -90,11 +79,11 @@ const onSubmit = () => {
 }
 </script>  
 <template>
-    <Head title="Create Mockup" />
+    <Head title="Create Product" />
     <Toast />
     <div class="border border-gray-200 rounded-2xl overflow-hidden bg-white p-4">
         <form @submit.prevent="onSubmit">
-            <h3 class="text-xl font-normal mb-4">Mockup Information</h3>
+            <h3 class="text-xl font-normal mb-4">Product Information</h3>
             <div class="flex gap-4 mb-4">
                 <label for="category_id"  class="font-normal lg:w-1/4">Category</label>
                 <div class="w-full lg:w-3/4">
@@ -105,7 +94,7 @@ const onSubmit = () => {
             <div class="flex gap-4 mb-4">
                 <label for="name"  class="font-normal lg:w-1/4">Name</label>
                 <div class="w-full lg:w-3/4">
-                    <InputText v-model="form.name" id="name" :invalid="errors.name" autocomplete="off" />
+                    <InputText class="w-full" v-model="form.name" id="name" :invalid="errors.name" autocomplete="off" />
                     <Message v-if="errors.name" severity="error" size="small" variant="simple">{{ errors.name }}</Message>
                 </div>
             </div>
@@ -119,38 +108,29 @@ const onSubmit = () => {
             <div class="flex gap-4 mb-4">
                 <label for="price"  class="font-normal lg:w-1/4">Price</label>
                 <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.price" id="price" :invalid="errors.price" autocomplete="off" />
+                    <InputNumber currency="BDT" mode="currency" v-model="form.price" id="price" :invalid="errors.price" autocomplete="off" />
                     <Message v-if="errors.price" severity="error" size="small" variant="simple">{{ errors.price }}</Message>
                 </div>
             </div>
             <div class="flex gap-4 mb-4">
-                <label for="sell_price"  class="font-normal lg:w-1/4">Sell Price</label>
+                <label for="compare_price"  class="font-normal lg:w-1/4">Compare Price</label>
                 <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.sell_price" id="sell_price" :invalid="errors.sell_price" autocomplete="off" />
-                    <Message v-if="errors.sell_price" severity="error" size="small" variant="simple">{{ errors.sell_price }}</Message>
-                </div>
-            </div>
-            <div class="flex gap-4 mb-4">
-                <label for="type" class="font-normal lg:w-1/4">Type</label>
-                <div class="w-full lg:w-3/4">
-                    <div class="flex items-center gap-4"> 
-                        <div class="flex items-center gap-2">
-                            <RadioButton v-model="form.type" inputId="default_print" name="type" value="default_print" />
-                            <label for="default_print">Default Print</label>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <RadioButton v-model="form.type" inputId="all_over_print" name="type" value="all_over_print" />
-                            <label for="all_over_print">All Over Print</label>
-                        </div>
-                    </div>
-                    <Message v-if="errors.type" severity="error" size="small" variant="simple">{{ errors.type }}</Message>
+                    <InputNumber currency="BDT" mode="currency" v-model="form.compare_price" id="compare_price" :invalid="errors.compare_price" autocomplete="off" />
+                    <Message v-if="errors.compare_price" severity="error" size="small" variant="simple">{{ errors.compare_price }}</Message>
                 </div>
             </div>
             <div class="flex gap-4 mb-2">
-                <label for="imaage" class="font-normal lg:w-1/4">Image</label>
+                <label for="imaage" class="font-normal lg:w-1/4">Cover Image</label>
                 <div class="w-full lg:w-3/4">
-                    <UFileUpload v-model="form.image" />
-                    <span v-if="errors.image" class="text-red-500">{{ errors.image }}</span>
+                    <UFileUpload v-model="form.cover_image" />
+                    <span v-if="errors.cover_image" class="text-red-500">{{ errors.cover_image }}</span>
+                </div>
+            </div>
+            <div class="flex gap-4 mb-2">
+                <label for="imaage" class="font-normal lg:w-1/4">Hover Image</label>
+                <div class="w-full lg:w-3/4">
+                    <UFileUpload v-model="form.hover_image" />
+                    <span v-if="errors.hover_image" class="text-red-500">{{ errors.hover_image }}</span>
                 </div>
             </div>
             <div class="flex gap-4 mb-2">
@@ -243,21 +223,6 @@ const onSubmit = () => {
                 </div>
             </div>
             
-            <div class="flex gap-4 mb-4" v-if="form.type !== 'all_over_print'">
-                <label for="description"  class="font-normal lg:w-1/4">Colors</label>
-                <div class="w-full lg:w-3/4">
-                    <MultiSelect v-model="form.colors" display="chip" :options="colors.data" optionLabel="name" optionValue="id" filter placeholder="Select Color"
-                         :maxSelectedLabels="5" class="w-full">
-                    <template #option="slotProps">
-                        <div class="flex items-center">
-                            <span :style="{ backgroundColor: '#'+slotProps.option.hex_code }" class="size-6 rounded-full mr-2 block"></span>
-                            <div>{{ slotProps.option.name }}</div>
-                        </div>
-                    </template>
-                </MultiSelect>
-                    <Message v-if="errors.colors" severity="error" size="small" variant="simple">{{ errors.colors }}</Message>
-                </div>
-            </div>
             <div class="flex gap-4 mb-4">
                 <label for="description"  class="font-normal lg:w-1/4">Sizes</label>
                 <div class="w-full lg:w-3/4">
@@ -278,7 +243,7 @@ const onSubmit = () => {
                     <div v-for="size in form.variations" :key="size.id" class="flex items-center gap-5 mb-2">
                         <InputText type="text" v-model="size.name" class="w-20" />
                         <InputNumber v-model="size.price" class="w-32" placeholder="Price"  mode="currency" currency="USD" locale="en-US" />
-                        <InputNumber v-model="size.sell_price" class="w-32" placeholder="Sell Price"  mode="currency" currency="USD" locale="en-US" />
+                        <InputNumber v-model="size.compare_price" class="w-32" placeholder="Sell Price"  mode="currency" currency="USD" locale="en-US" />
                     </div>
                 </div>
             </div>
@@ -287,42 +252,7 @@ const onSubmit = () => {
                  </div>
                 <Button type="submit" label="Save" icon="pi pi-save"  block />
             </div>
-            
-            
-            <h3 class="text-xl font-normal mb-4">Shipping Information</h3>
-            <div class="flex gap-4 mb-4">
-                <label for="us_charge"  class="font-normal lg:w-1/4">US Charge</label>
-                <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.us_charge" id="us_charge" :invalid="errors.us_charge" autocomplete="off" />
-                    <Message v-if="errors.us_charge" severity="error" size="small" variant="simple">{{ errors.us_charge }}</Message>
-                </div>
-            </div>
-            <div class="flex gap-4 mb-4">
-                <label for="us_add_charge_per_item"  class="font-normal lg:w-1/4">US Add Charge Per Item</label>
-                <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.us_add_charge_per_item" id="us_add_charge_per_item" :invalid="errors.us_add_charge_per_item" autocomplete="off" />
-                    <Message v-if="errors.us_add_charge_per_item" severity="error" size="small" variant="simple">{{ errors.us_add_charge_per_item }}</Message>
-                </div>
-            </div>
-            <div class="flex gap-4 mb-4">
-                <label for="worldwide_charge"  class="font-normal lg:w-1/4">Worldwide Charge</label>
-                <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.worldwide_charge" id="worldwide_charge" :invalid="errors.worldwide_charge" autocomplete="off" />
-                    <Message v-if="errors.worldwide_charge" severity="error" size="small" variant="simple">{{ errors.worldwide_charge }}</Message>
-                </div>
-            </div>
-            <div class="flex gap-4 mb-4">
-                <label for="worldwide_add_charge_per_item"  class="font-normal lg:w-1/4">Worldwide Add Charge Per Item</label>
-                <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.worldwide_add_charge_per_item" id="worldwide_add_charge_per_item" :invalid="errors.worldwide_add_charge_per_item" autocomplete="off" />
-                    <Message v-if="errors.worldwide_add_charge_per_item" severity="error" size="small" variant="simple">{{ errors.worldwide_add_charge_per_item }}</Message>
-                </div>
-            </div>
-            <div class="flex gap-4 mb-4">
-                <div class="w-full lg:w-1/4">
-                 </div>
-                <Button type="submit" label="Save With Shipping" icon="pi pi-save" />
-            </div>
+
         </form>
     </div>
 </template>

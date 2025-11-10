@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Actions\FileUploadAction;
 use App\Actions\MockupGenerator;
 use App\Http\Requests\Admin\ProductRequest;
+use App\Models\Category;
+use App\Models\Size;
 
 class ProductController extends Controller
 {
@@ -25,8 +27,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::query()->with('store:id,name','campaign:id,name')->paginate(20);
-        return inertia('Vendor/Product/Index', [
+        $products = Product::query()->search(['name','code'], request()->search);
+        return inertia('Product/Index', [
             'products' => ProductResource::collection($products),
         ]);
     }
@@ -36,7 +38,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Product/Create',[
+            'categories' => Category::query()->select('id', 'name', 'image')->get(),
+            'sizes' => Size::query()->orderBy('order_level')->select(['id','name','order_level'])->get(),
+        ]);
     }
 
     /**
@@ -55,15 +60,32 @@ class ProductController extends Controller
                 $data['hover_image'] = $this->fileUpload->upload($request->hover_image);
             }
             
-            if ($request->has('size_chart') && $request->size_chart) {
-                $data['size_chart'] = $this->fileUpload->upload($request->size_chart);
+            if ($request->has('measurement_guide') && $request->measurement_guide) {
+                $data['measurement_guide'] = $this->fileUpload->upload($request->measurement_guide);
             }
             
             if ($request->has('og_image') && $request->og_image) {
                 $data['og_image'] = $this->fileUpload->upload($request->og_image, false, null, null, 1200, 630);
             }
-        
-            return ProductResource::make(Product::create($data));
+            $product = Product::create($data);
+            if($request->size_chart){
+                $product->sizeChart()->create([
+                    'title' => 'Size Chart',
+                    'chart_data' => $request->size_chart
+                ]);
+            }
+
+            if($request->variations){
+                foreach($request->variations as $variation){
+                    $product->variations()->create([
+                        'size_id' => $variation['id'],
+                        'sku' => rand(99999999,10000000),
+                        'price' => $variation['price'],
+                        'sell_price' => $variation['sell_price'],
+                    ]);
+                }
+            }
+            return ProductResource::make($product);
         }
     
 

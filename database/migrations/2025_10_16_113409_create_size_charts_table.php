@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('size_charts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('mockup_id')->constrained('mockups')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignUuid('product_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('title')->nullable(); 
             $table->json('chart_data')->nullable();
             $table->timestamps();

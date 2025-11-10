@@ -21,7 +21,7 @@ class ColorController extends Controller
     {
         $colors = Color::query()->with('creator:id,name','editor:id,name')
         ->search(['name','creator.name','editor.name'], request()->search);
-        return inertia('Mockup/Variation/Color', [
+        return inertia('Product/Variation/Color', [
             'colors' => ColorResource::collection($colors),
             'search' => request()->search,
         ]);

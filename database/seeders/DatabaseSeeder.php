@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Admin::factory()->create([
-            'name' => 'Tentomart Admin',
-            'email' => 'tentomart@gmail.com',
+            'name' => 'Tushar Imran',
+            'email' => 'tusharimran@gmail.com',
             'phone' => '01648550599',
-            'password' => Hash::make('tentomart321'),
+            'password' => Hash::make('tusharimran'),
         ]);
     }
 }

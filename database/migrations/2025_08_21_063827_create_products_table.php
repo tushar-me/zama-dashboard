@@ -13,26 +13,21 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('vendor_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('store_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('campaign_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignUuid('mockup_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignUuid('category_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->unsignedBigInteger('brand_id')->nullable();
+            $table->foreignUuid('created_by')->nullable()->constrained('admins')->nullOnDelete();
+            $table->foreignUuid('last_updated_by')->nullable()->constrained('admins')->nullOnDelete();
             //Information
             $table->string('code');
             $table->string('name');
             $table->string('slug');
             $table->string('artwork')->nullable();
-            $table->string('artwork_file')->nullable();
             $table->string('cover_image')->nullable();
             $table->string('hover_image')->nullable();
-            $table->string('size_chart')->nullable();
+            $table->string('measurement_guide')->nullable();
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
             $table->json('specification')->nullable();
-            $table->enum('type', ['campaign','all_over_print', 'ecommerce'])->default('campaign');
-            $table->boolean('is_default')->default(false);
             $table->text('video_url')->nullable();
             // Pricing & Inventory
             $table->decimal('price', 10, 2)->default(0.00);
@@ -46,7 +41,6 @@ return new class extends Migration
             $table->enum('inventory_policy', ['deny', 'continue'])->default('deny');
             $table->decimal('weight', 8, 2)->nullable();
             $table->json('dimensions')->nullable();
-            $table->decimal('vendor_profit', 10, 2)->default(0.00);
             // SEO
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();

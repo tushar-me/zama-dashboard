@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignUuid('created_by')->nullable()->constrained('admins')->nullOnDelete();
             $table->foreignUuid('last_updated_by')->nullable()->constrained('admins')->nullOnDelete();
             $table->string('sku');
-            $table->decimal('price')->nullable();
-            $table->decimal('sell_price');
+            $table->decimal('compare_price')->nullable();
+            $table->decimal('price');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
