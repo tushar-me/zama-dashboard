@@ -49,7 +49,6 @@ const items = ref([
       { label: 'Country', icon: 'material-symbols:globe-location-pin', to: '/country' },
       { label: 'State', icon: 'hugeicons:real-estate-02', to: '/state' },
       { label: 'City', icon: 'ph:city', to: '/city' },
-      { label: 'Others', icon: 'material-symbols:event-list-outline-rounded', to: '/category' },
     ],
   },
   {

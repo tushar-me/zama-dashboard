@@ -23,8 +23,6 @@ return new class extends Migration
             $table->text('icon')->nullable();
             $table->string('image')->nullable();
             $table->string('banner')->nullable();
-            $table->enum('type', ['mockup', 'ecommerce'])->default('mockup');
-            $table->enum('print_type', ['all_over_print', 'default_print','both_print'])->default('default_print');
             $table->integer('order_level')->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();

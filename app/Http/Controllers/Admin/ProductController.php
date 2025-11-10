@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::query()->search(['name','code'], request()->search);
+        $products = Product::query()->with('category:id,name', 'creator:id,name', 'editor:id,name')->search(['name','code'], request()->search);
         return inertia('Product/Index', [
             'products' => ProductResource::collection($products),
         ]);
@@ -80,12 +80,12 @@ class ProductController extends Controller
                     $product->variations()->create([
                         'size_id' => $variation['id'],
                         'sku' => rand(99999999,10000000),
+                        'compare_price' => $variation['compare_price'],
                         'price' => $variation['price'],
-                        'sell_price' => $variation['sell_price'],
                     ]);
                 }
             }
-            return ProductResource::make($product);
+            return to_route('product.index');
         }
     
 

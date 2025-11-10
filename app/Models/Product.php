@@ -22,8 +22,6 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'campaign_id',
-        'collection_id',
         'category_id',
         'brand_id',
         'code',
@@ -31,7 +29,6 @@ class Product extends Model
         'slug',
         'cover_image',
         'hover_image',
-        'size_chart',
         'short_description',
         'description',
         'specification',
@@ -101,8 +98,8 @@ class Product extends Model
             $product->editor()->associate(auth('admin')->user()->id);
             $product->code = GenerateUniqueCode::for('products', 'code', 4);
         });
-        static::updating(function ($mockup) {
-            $mockup->editor()->associate(auth('admin')->user()->id);
+        static::updating(function ($product) {
+            $product->editor()->associate(auth('admin')->user()->id);
         });
     }
     public function getSlugOptions() : SlugOptions
@@ -171,6 +168,6 @@ class Product extends Model
 
     public function sizeChart(): HasOne
     {
-        return $this->hasOne(SizeChart::class, 'mockup_id');
+        return $this->hasOne(SizeChart::class, 'product_id');
     }
 }
