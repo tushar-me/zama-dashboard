@@ -2,6 +2,7 @@
 
 namespace App\Services\Orders;
 
+use App\Models\Order;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Exception;
 
@@ -10,7 +11,7 @@ class CreatePaypalPaymentService
     /**
      * @throws \Throwable
      */
-    public function handle(array $data, $combinedOrder)
+    public function handle(Order $order)
     {
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -19,8 +20,8 @@ class CreatePaypalPaymentService
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
-                    "return_url" => env('APP_URL') . "/api/paypal-payment-success?order_code={$combinedOrder->order_code}",
-                    "cancel_url" => env('FRONTEND_URL') . "/paypal-payment-cancel?order_code={$combinedOrder->order_code}",
+                    "return_url" => env('APP_URL') . "/api/paypal-payment-success?order_code={$order->order_code}",
+                    "cancel_url" => env('FRONTEND_URL') . "/paypal-payment-cancel?order_code={$order->order_code}",
                     "brand_name" => 'Tentomart',
                     "user_action" => "PAY_NOW",
                 ],
@@ -28,19 +29,19 @@ class CreatePaypalPaymentService
                     [
                         "amount" => [
                             "currency_code" => strtoupper('usd'),
-                            "value" => number_format($combinedOrder->grand_total, 2, '.', '')
+                            "value" => number_format($order->grand_total, 2, '.', '')
                         ],
                       
-                        "custom_id" => $combinedOrder->id,
-                        "description" => "Payment for Order #{$combinedOrder->order_code}"
+                        "custom_id" => $order->id,
+                        "description" => "Payment for Order #{$order->order_code}"
                     ]
                 ]
             ]);
 
 
             if (isset($response['id']) && $response['id'] != null) {
-                $combinedOrder->paypal_order_id = $response['id']; 
-                $combinedOrder->save();
+                $order->paypal_order_id = $response['id']; 
+                $order->save();
                 foreach ($response['links'] as $link) {
                     if ($link['rel'] === 'approve') {
                         return $link['href'];

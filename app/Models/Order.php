@@ -33,6 +33,12 @@ class Order extends Model
         'payment_status',
         'status_note',
     ];
+    protected static function booted(): void
+    {
+        static::creating(function (Order $order) {
+            $order->customer()->associate(request()->user()->id);
+        });
+    }
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);

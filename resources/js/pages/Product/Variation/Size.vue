@@ -166,21 +166,6 @@ const onDelete = (id: string | undefined) => {
                         <Button  icon="pi pi-plus" @click="createDialog = true" label="Create Size" />
                     </div>
                 </div>
-                <Paginator
-                        :rows="props.sizes.meta.per_page ?? 10"
-                        :first="(props.sizes.meta.current_page - 1) * props.sizes.meta.per_page"
-                        :totalRecords="props.sizes.meta.total"
-                        :rowsPerPageOptions="[10, 20, 30]"
-                        @page="onPageChange"
-                    />
-                <ul v-if="selectedSizes.length > 0" class="flex items-center gap-3 px-4">
-                    <li v-if="selectedSizes.length == 1">
-                        <Button icon="pi pi-pen-to-square" label="Edit" size="small" @click="deleteSizes" />
-                    </li>
-                    <li>
-                        <Button icon="pi pi-trash" label="Delete" size="small" severity="danger" @click="deleteSize" />
-                    </li>
-                </ul>
             </template>
             <template #empty> No Size found. </template>
             <template #loading> Loading size data. Please wait. </template>

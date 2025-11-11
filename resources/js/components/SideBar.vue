@@ -3,22 +3,14 @@ import { ref,computed } from "vue";
 import { Link, router, usePage } from '@inertiajs/vue3';
 import { motion } from "motion-v"
 
-
-
 const page = usePage()
 const user = computed(() => page.props.auth.user)
-
 
 const openIndex = ref<number | null>(null);
 
 const toggle = (index: number) => {
   openIndex.value = openIndex.value === index ? null : index;
 };
-
-const handleLogout = () => {
-  router.flushAll();
-};
-
 const items = ref([
   {
     label: 'Dashboard',
@@ -49,7 +41,6 @@ const items = ref([
       { label: 'Country', icon: 'material-symbols:globe-location-pin', to: '/country' },
       { label: 'State', icon: 'hugeicons:real-estate-02', to: '/state' },
       { label: 'City', icon: 'ph:city', to: '/city' },
-      { label: 'Others', icon: 'material-symbols:event-list-outline-rounded', to: '/category' },
     ],
   },
   {

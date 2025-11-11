@@ -5,11 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Website\OrderRequest;
 use App\Http\Resources\Website\OrderResource;
+use App\Http\Services\Order\CreateSslCommerzPaymentService;
 use App\Services\Orders\CreateCustomerService;
 use App\Services\Orders\CreateStripeCheckoutSessionService;
 use App\Services\Orders\StoreOrderService;
 use Illuminate\Http\Request;
-use App\Models\CombinedOrder;
+use App\Models\Order;
 use App\Services\Orders\CreatePaypalPaymentService;
 use Exception;
 
@@ -31,6 +32,7 @@ class OrderController extends Controller
         CreateStripeCheckoutSessionService $createStripeCheckoutSession,
         CreateCustomerService $createCustomer,
         CreatePaypalPaymentService $createPaypalPayment,
+        CreateSslCommerzPaymentService $createSslCommerzPayment,
         StoreOrderService $storeOrder
     ) {
         $data = $request->validated();
@@ -40,11 +42,20 @@ class OrderController extends Controller
         
         $paymentUrl = null;
         try {
-            if ($data['payment_method'] === 'stripe') {
+            if($data['payment_method'] === 'cod'){
+                return response()->json([
+                    'data' => [
+                        'status' => 'success',
+                        'message' => 'Order Created Succesfully',
+                    ]
+                ], 201);
+            }  elseif($data['payment_method'] === 'sslcommerz') {
+                $paymentUrl = $createSslCommerzPayment->handle($order);
+            } elseif ($data['payment_method'] === 'stripe') {
                 $session = $createStripeCheckoutSession->handle($data);
                 $paymentUrl = $session->url;
             } elseif ($data['payment_method'] === 'paypal') {
-                $paymentUrl = $createPaypalPayment->handle($data, $order);
+                $paymentUrl = $createPaypalPayment->handle($order);
             } else {
                 return response()->json(['error' => 'Invalid payment method selected.'], 400);
             }
@@ -65,7 +76,7 @@ class OrderController extends Controller
      */
     public function show(string $code)
     {
-        $order = CombinedOrder::where('order_code', $code)->with('status')->first();
+        $order = Order::where('order_code', $code)->with('status')->first();
 
         return OrderResource::make($order);
     }

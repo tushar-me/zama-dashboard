@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('order_statuses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('key');
             $table->text('description')->nullable();
             $table->boolean('status')->default(true);
             $table->boolean('is_default')->default(false);

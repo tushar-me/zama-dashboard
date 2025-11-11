@@ -123,11 +123,6 @@ const onDelete = (id: string | undefined) => {
                     <img class="size-20 object object-contain" :src="data?.image" :alt="data?.name">
                 </template>
             </Column>
-            <Column field="email" header="Mockup Count" style="min-width: 6rem">
-                <template #body="{ data }">
-                    {{ data?.email }}
-                </template>
-            </Column>
              <Column field="created_by" header="Creator" style="min-width: 10rem">
                 <template #body="{ data }">
                     {{ data?.creator?.name }}

@@ -31,7 +31,7 @@ return new class extends Migration
             $table->decimal('vat')->nullable();
             $table->decimal('sub_total')->nullable();
             $table->decimal('grand_total')->nullable();
-            $table->enum('payment_status', ['paid', 'pending', 'cancelled'])->default("pending");
+            $table->enum('payment_status', ['paid', 'pending', 'cancelled','failed'])->default("pending");
             $table->text('status_note')->nullable();
             $table->timestamps();
         });

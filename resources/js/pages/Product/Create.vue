@@ -62,7 +62,7 @@ function removeRow(index: number) {
   form.size_chart.rows.splice(index, 1);
 }
 const onSubmit = () => {
-    form.post(route('mockup.store'), {
+    form.post(route('product.store'), {
         forceFormData: true,
         onSuccess: () => {
             toast.add({ severity: 'success', summary: 'Success', detail: 'Mockup has been created successfully', life: 3000 });
@@ -101,7 +101,7 @@ const onSubmit = () => {
             <div class="flex gap-4 mb-4">
                 <label for="price"  class="font-normal lg:w-1/4">Production Cost</label>
                 <div class="w-full lg:w-3/4">
-                    <InputNumber currency="USD" mode="currency" v-model="form.cost" id="price" :invalid="errors.cost" autocomplete="off" />
+                    <InputNumber currency="BDT" mode="currency" v-model="form.cost" id="price" :invalid="errors.cost" autocomplete="off" />
                     <Message v-if="errors.cost" severity="error" size="small" variant="simple">{{ errors.cost }}</Message>
                 </div>
             </div>
@@ -242,8 +242,8 @@ const onSubmit = () => {
                 <div class="w-full lg:w-3/4">
                     <div v-for="size in form.variations" :key="size.id" class="flex items-center gap-5 mb-2">
                         <InputText type="text" v-model="size.name" class="w-20" />
-                        <InputNumber v-model="size.price" class="w-32" placeholder="Price"  mode="currency" currency="USD" locale="en-US" />
-                        <InputNumber v-model="size.compare_price" class="w-32" placeholder="Sell Price"  mode="currency" currency="USD" locale="en-US" />
+                        <InputNumber v-model="size.price" class="w-32" placeholder="Price"  mode="currency" currency="BDT"  />
+                        <InputNumber v-model="size.compare_price" class="w-32" placeholder="Sell Price"  mode="currency" currency="BDT" />
                     </div>
                 </div>
             </div>

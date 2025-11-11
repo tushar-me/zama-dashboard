@@ -1,25 +1,23 @@
 <?php
 use App\Models\City;
-use App\Models\Country;
-use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/countries', function(){
-    return Country::query()->select(['id','name','code','phone_code'])->get();
-});
-Route::get('/states', function(Request $request){
-    $states = State::query()->where('country_id', $request->country_id)->select('id', 'name','country_id')->get();
-    return response()->json($states);
-});
+Route::apiResource('product', \App\Http\Controllers\API\ProductController::class)->only(['index', 'show']);
 Route::get('/cities', function(Request $request){
     $cites = City::query()->where('state_id', $request->state_id)->select('id', 'name','state_id')->get();
     return response()->json($cites);
 });
 
+//sslcommerz payment routes
+Route::post('/success', [\App\Http\Controllers\API\SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [\App\Http\Controllers\API\SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [\App\Http\Controllers\API\SslCommerzPaymentController::class, 'cancel']);
+Route::post('/ipn', [\App\Http\Controllers\API\SslCommerzPaymentController::class, 'ipn']);
+
 // Customer Dashboard Routes
-Route::get('/me', function (Request $request) {return $request->user();})->middleware('auth:sanctum');
+Route::get('/me', fn (Request $request) => $request->user())->middleware('auth:sanctum');
 Route::prefix('/auth/customer')->group(function () {
     Route::post('/login', [App\Http\Controllers\Auth\SanctumAuthController::class, 'vendorLogin']);
     Route::post('/register', [App\Http\Controllers\Auth\SanctumAuthController::class, 'vendorRegister']);

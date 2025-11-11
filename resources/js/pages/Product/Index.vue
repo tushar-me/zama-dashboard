@@ -112,9 +112,9 @@ function onDelete() {
                             <InputText placeholder="Search" />
                         </IconField>
                         <Button asChild v-slot="slotProps">
-                            <Link href="/mockup/create" :class="slotProps.class">
+                            <Link href="/product/create" :class="slotProps.class">
                                 <Icon name="material-symbols:add-rounded"/>
-                                Create Mockup
+                                Create Product
                             </Link>
                         </Button>
                     </div>
@@ -136,33 +136,25 @@ function onDelete() {
             </Column>
             <Column field="image" header="Image" style="min-width: 8rem">
                 <template #body="{ data }">
-                    <img class="size-20 object object-contain" :src="data?.image" :alt="data?.name">
+                    <img class="size-20 object object-contain" :src="data?.cover_image" :alt="data?.name">
                 </template>
             </Column>
+            <Column field="category" header="Category" style="min-width: 10rem" />
              <Column field="created_by" header="Creator" style="min-width: 10rem">
                 <template #body="{ data }">
-                    {{ data?.creator?.name }}
+                    {{ data?.creator }}
+                    <p>{{ data?.created_at }}</p>
                 </template>
             </Column>
             <Column field="last_updated_at" header="Last Updated By" style="min-width: 10rem">
                 <template #body="{ data }">
-                    {{ data?.editor?.name }}
+                    {{ data?.editor }}
+                    <p>{{ data?.updated_at }}</p>
                 </template>
             </Column>
             <Column field="status" header="Status" style="min-width: 5rem">
                 <template #body="{ data }">
                     {{ data?.status }}
-                </template>
-            </Column>
-            <Column field="type" header="Type">
-                <template #body="{ data }">
-                    <span v-if="data?.type == 'default'" class="uppercase text-sm bg-slate-300 p-2 rounded-md">{{ data?.type }}</span>
-                    <span v-else class="uppercase text-sm bg-amber-300 p-2 rounded-md">{{ data?.type }}</span>
-                </template>
-            </Column>
-             <Column field="order_level" header="Order Level">
-                <template #body="{ data }">
-                    {{ data?.order_level }}
                 </template>
             </Column>
             <Column>

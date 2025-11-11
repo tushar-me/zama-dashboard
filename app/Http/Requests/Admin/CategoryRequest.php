@@ -28,12 +28,6 @@ class CategoryRequest extends FormRequest
             'slug' => 'nullable|string|max:255',
             'order_level' => 'required|integer',
             'image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
-            'type' => 'required|string|in:mockup,ecommerce',
-            'print_type' => 'required|string|in:all_over_print,default_print,both_print',
-            'us_charge' => 'nullable|numeric',
-            'us_add_charge_per_item' => 'nullable|numeric',
-            'worldwide_charge' => 'nullable|numeric',
-            'worldwide_add_charge_per_item' =>  'nullable|numeric'
         ];
     }
 }

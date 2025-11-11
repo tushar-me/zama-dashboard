@@ -1,17 +1,18 @@
 <?php
 
-use App\Models\Store;
 use App\Models\Setting;
+use Carbon\Carbon;
 
-if(!function_exists('storeCode')){
-    function storeCode()
-    {
-        $store = Store::query()->where('id', request()->header('store'))->first();
-        if($store){
-            return $store->code;
-        }else{
-            return null;
-        } 
+if(!function_exists('formatDate')){
+    function formatDate($date): string{
+        $date = Carbon::parse($date)->timezone('Asia/Dhaka');
+        $diffInDays = $date->diffInDays(Carbon::now('Asia/Dhaka'));
+
+        if ($diffInDays < 1) {
+            return $date->diffForHumans(); 
+        }
+
+        return $date->format('M d, Y h:i A');
     }
 }
 

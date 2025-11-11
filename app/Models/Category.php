@@ -57,14 +57,7 @@ class Category extends Model
             $category->editor()->associate(auth('admin')->user()->id);
         });
     }
-    public function shippingCharge(): MorphOne
-    {
-        return $this->morphOne(ShippingCharge::class, 'chargeable');
-    }
-    public function mockups(): HasMany
-    {
-        return $this->hasMany(Mockup::class);
-    }
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(Admin::class, 'created_by');

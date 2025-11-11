@@ -22,7 +22,7 @@ class CategoryController extends Controller
     {
         $categories = Category::query()
         ->orderBy('order_level')
-        ->with('creator:id,name', 'editor:id,name','shippingCharge')
+        ->with('creator:id,name', 'editor:id,name',)
         ->search(['name','creator.name','editor.name'],$request->search);
         return inertia('Category/Index', [
             'categories' => CategoryResource::collection($categories),
@@ -47,15 +47,9 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request, FileUploadAction $fileAction) : RedirectResponse
     {
-        $category = Category::query()->create([
+        Category::query()->create([
             ...$request->validated(),
             'image' => $request->file('image') ? $fileAction->upload($request->file('image')) : null,
-        ]);
-       $category->shippingCharge()->create([
-            'us_charge' => $request->input('us_charge') ?? 0,
-            'us_add_charge_per_item' => $request->input('us_add_charge_per_item') ?? 0,
-            'worldwide_charge' => $request->input('worldwide_charge')?? 0,
-            'worldwide_add_charge_per_item' => $request->input('worldwide_add_charge_per_item')?? 0
         ]);
 
         return to_route('category.index');
@@ -74,7 +68,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::query()->with('shippingCharge')->findOrFail($id);
+        $category = Category::query()->findOrFail($id);
         $parentCategories = Category::query()->select(['id', 'name'])->where('parent_id', null)->get();
         
         return inertia('Category/Edit', [
@@ -95,12 +89,6 @@ class CategoryController extends Controller
         $category->update([
             ...$request->validated(),
             'image' => $request->file('image') ? $fileAction->upload($request->file('image'), $category->image) : $category->getRawOriginal('image'),
-        ]);
-        $category->shippingCharge()->update([
-            'us_charge' => $request->input('us_charge'),
-            'us_add_charge_per_item' => $request->input('us_add_charge_per_item'),
-            'worldwide_charge' => $request->input('worldwide_charge'),
-            'worldwide_add_charge_per_item' => $request->input('worldwide_add_charge_per_item')
         ]);
         return to_route('category.index');
     }
