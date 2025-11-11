@@ -158,17 +158,5 @@ const menuToggle = (event: any) => {
         </div>
       </motion.div>
     </li>
-
-    <!-- Logout -->
-    <Link
-      method="post"
-      :href="route('logout')"
-      @click="handleLogout"
-      as="button"
-      class="w-full flex items-center px-4 py-3 mt-4 text-stone-100 hover:bg-neutral-800 cursor-pointer rounded-lg gap-3"
-    >
-      <Icon name="ri:logout-circle-line" class="text-xl" />
-      <span class="font-normal text-lg">Logout</span>
-    </Link>
   </ul>
 </template>
