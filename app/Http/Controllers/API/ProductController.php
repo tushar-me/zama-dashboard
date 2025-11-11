@@ -24,9 +24,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $product = Product::query()->with('colors','colors.images')->findOrFail($id);
+        $product = Product::query()->with('colors','colors.images')->where('slug',$slug)->first();
         return ProductResource::make($product);
     }
 }
