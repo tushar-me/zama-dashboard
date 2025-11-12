@@ -16,7 +16,6 @@ class ProductImage extends Model
         'product_side_id',
         'product_color_id',
         'image',
-        'mockup',
         'side',
         'color_code'
     ];

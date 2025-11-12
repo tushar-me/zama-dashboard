@@ -99,7 +99,7 @@ import { ref, computed, watch } from 'vue';
 
 interface CustomFile extends File {
   preview?: string;
-  isInitial?: boolean; // To mark if it's an initial image
+  isInitial?: boolean; 
 }
 
 interface Props {

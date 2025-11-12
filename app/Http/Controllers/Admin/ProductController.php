@@ -10,6 +10,7 @@ use App\Actions\FileUploadAction;
 use App\Actions\MockupGenerator;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Category;
+use App\Models\ProductImage;
 use App\Models\Size;
 
 class ProductController extends Controller
@@ -68,6 +69,14 @@ class ProductController extends Controller
                 $data['og_image'] = $this->fileUpload->upload($request->og_image, false, null, null, 1200, 630);
             }
             $product = Product::create($data);
+            if(isset($data['images'])){
+                foreach($data['images'] as $image){
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'image' => $this->fileUpload->upload($image)
+                    ]);
+                }
+            }
             if($request->size_chart){
                 $product->sizeChart()->create([
                     'title' => 'Size Chart',

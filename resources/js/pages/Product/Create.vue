@@ -34,6 +34,7 @@ const form = useForm({
     category_id: '',
     variations: [],
     video_url: null,
+    images: [],
     size_chart: {
         columns: ["Size", "Width", "Length"],
         rows: [
@@ -131,6 +132,13 @@ const onSubmit = () => {
                 <div class="w-full lg:w-3/4">
                     <UFileUpload v-model="form.hover_image" />
                     <span v-if="errors.hover_image" class="text-red-500">{{ errors.hover_image }}</span>
+                </div>
+            </div>
+            <div class="flex gap-4 mb-2">
+                <label for="imaage" class="font-normal lg:w-1/4">Images</label>
+                <div class="w-full lg:w-3/4">
+                    <UFileUpload multiple v-model="form.images" />
+                    <span v-if="errors.hover_image" class="text-red-500">{{ errors.images }}</span>
                 </div>
             </div>
             <div class="flex gap-4 mb-2">

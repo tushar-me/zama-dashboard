@@ -35,6 +35,7 @@ class ProductRequest extends FormRequest
             'cost' => 'nullable|numeric|min:0|max:99999999.99',
             'tax' => 'nullable|numeric|min:0|max:99999999.99',
             'is_tax_included' => 'boolean',
+            'images' => 'nullable|array',
             'inventory_quantity' => 'nullable|integer|min:0',
             'inventory_policy' => 'nullable|in:deny,continue',
             'weight' => 'nullable|numeric|min:0|max:999999.99',
