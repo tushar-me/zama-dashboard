@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Store;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PayoutRequest extends FormRequest
+class CollectionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,9 +22,7 @@ class PayoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'request_amount' => 'required|numeric|min:100|max:2000',
-            'payment_account_id' => 'required|string|exists:payment_accounts,id',
-            'note' => 'required|string|max:255' 
+            //
         ];
     }
 }

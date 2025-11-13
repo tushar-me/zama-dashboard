@@ -5,7 +5,7 @@ namespace App\Http\Resources\Website;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class ProductShowResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,7 +14,7 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-         return [
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
@@ -22,6 +22,9 @@ class ProductResource extends JsonResource
             'hover_thumbnail' =>  $this->hover_image,
             'price' => $this->price,
             'compare_price' => $this->compare_price,
+            'images' => $this->whenLoaded('images', function ($images) {
+                return ProductImageResource::collection($images);
+            })
          ];
     }
 }

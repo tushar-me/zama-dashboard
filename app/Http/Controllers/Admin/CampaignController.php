@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Store\CampaignRequest;
+use App\Http\Requests\Admin\CampaignRequest;
 use App\Models\Campaign;
 use App\Actions\FileUploadAction;
 use Illuminate\Http\Request;

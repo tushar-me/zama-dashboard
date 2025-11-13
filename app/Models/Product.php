@@ -12,6 +12,8 @@ use Spatie\Sluggable\SlugOptions;
 use App\Actions\GenerateUniqueCode;
 use Illuminate\support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 class Product extends Model
 {
     use HasUuids, HasUuids, HasSlug;
@@ -159,7 +161,10 @@ class Product extends Model
     {
         return $this->hasMany(ProductColor::class);
     }
-
+    public function collections():BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class, 'collection_product', 'product_id', 'collection_id');
+    }
     public function orderDetails(): HasMany
     {
         return $this->hasMany(OrderDetail::class);

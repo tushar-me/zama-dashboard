@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use App\Http\Resources\Website\ProductResource;
+use App\Http\Resources\Website\ProductShowResource;
 use App\Models\Product;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -24,9 +25,9 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $product = Product::query()->with('colors','colors.images')->findOrFail($id);
-        return ProductResource::make($product);
+        $product = Product::query()->with('images')->where('slug',$slug)->first();
+        return ProductShowResource::make($product);
     }
 }
