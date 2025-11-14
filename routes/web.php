@@ -13,6 +13,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::resource('badge', \App\Http\Controllers\Admin\BadgeController::class);
     Route::resource('color', \App\Http\Controllers\Admin\ColorController::class);
     Route::resource('size', \App\Http\Controllers\Admin\SizeController::class);
+    Route::resource('collection', \App\Http\Controllers\Admin\CollectionController::class);
     Route::resource('product', \App\Http\Controllers\Admin\ProductController::class);
     Route::resource('campaign', \App\Http\Controllers\Admin\CampaignController::class);
     Route::resource('country', \App\Http\Controllers\Admin\CountryController::class);

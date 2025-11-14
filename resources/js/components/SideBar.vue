@@ -18,6 +18,11 @@ const items = ref([
     to: '/dashboard',
   },
   {
+    label: 'Collections',
+    icon: 'hugeicons:collections-bookmark',
+    to: '/collection'
+  },
+  {
     label: 'Products',
     icon: 'solar:box-outline',
     items: [

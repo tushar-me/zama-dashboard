@@ -11,7 +11,7 @@ class CollectionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class CollectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => $this->isMethod('POST') ? 'required|string|unique:collections,name' : 'required|string',
+            'order_level' => 'required|integer',
+            'image' => $this->isMethod('POST') ?'required|image|mimes:png,jpg,jpeg.webp':'nullablr|image|mimes:png,jpg,jpeg.webp',
+            'product_ids' => 'required|array'
         ];
     }
 }

@@ -4,13 +4,14 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
-import { Category } from '@/types';
+import { Category, Product } from '@/types';
 import UFileUpload from '@/components/UFileUpload.vue';
 defineOptions({ layout: AppLayout });
 const confirm = useConfirm();
 const toast = useToast();
 const props = defineProps<{
     errors: any,
+    products: Product[]
 }>()
 const home = ref({
     label: 'Dashboard',
@@ -24,14 +25,15 @@ const form = useForm({
     order_level: 0,
     image: null,
     status: 1,
+    product_ids: [],
     title: '',
 })
 
 const onSubmit = () => {
-    form.post('/category', {
+    form.post('/collection', {
         forceFormData: true,
         onSuccess: () => {
-            toast.add({ severity: 'success', summary: 'Success', detail: 'Category has been created successfully', life: 3000 });
+            toast.add({ severity: 'success', summary: 'Success', detail: 'Collection has been created successfully', life: 3000 });
             const audio = new Audio('/success.wav');
             audio.play();
             form.reset();
@@ -47,6 +49,7 @@ const onSubmit = () => {
 <template>
     <Head title="Create Collection" />
     <Toast />
+
     <div class="border border-gray-200 rounded-2xl overflow-hidden bg-white">
          <Breadcrumb :home="home" :model="items" />
         <form @submit.prevent="onSubmit" class="p-4">
@@ -59,19 +62,25 @@ const onSubmit = () => {
             </div>
             <div class="flex items-center gap-4 mb-4">
                 <label for="order_level" class="font-semibold lg:w-1/4">Order Level</label>
-                <div>
+                <div class="w-full lg:w-3/4">
                     <InputNumber v-model="form.order_level" id="order_level" class="flex-auto" autocomplete="off" />
                     <Message v-if="errors.order_level" severity="error" size="small" variant="simple">{{ errors.order_level }}</Message>
                 </div>
             </div>
-            <div class="flex items-center gap-4 mb-2">
+            <div class="flex items-center gap-4 mb-4">
                 <label for="image" class="font-semibold  lg:w-1/4">Image</label>
-                <div>
+                <div class="w-full lg:w-3/4">
                     <UFileUpload v-model="form.image" />
                     <span v-if="errors.image" class="text-red-500">{{ errors.image }}</span>
                 </div>
             </div>
-            
+            <div class="flex items-center gap-4 mb-4">
+                <label for="image" class="font-semibold  lg:w-1/4">Products</label>
+                <div class="w-full lg:w-3/4">
+                    <MultiSelect class="w-full" v-model="form.product_ids"  :options="products" filter  option-value="id" optionLabel="name" placeholder="Select Products" />
+                    <span v-if="errors.image" class="text-red-500">{{ errors.product_ids }}</span>
+                </div>
+            </div>
             <div  class="flex gap-4 mb-4">
                 <div class=" lg:w-1/4"></div>
                 <div class="flex items-center gap-2">

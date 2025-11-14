@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('created_by')->nullable()->constrained('admins')->nullOnDelete();
+            $table->foreignUuid('last_updated_by')->nullable()->constrained('admins')->nullOnDelete();
             $table->string('name')->index();
             $table->string('slug')->unique();
             $table->string('image')->nullable();

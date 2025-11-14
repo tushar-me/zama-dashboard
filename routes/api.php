@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::apiResource('product', \App\Http\Controllers\API\ProductController::class)->only(['index', 'show']);
+Route::apiResource('product', \App\Http\Controllers\API\ProductController::class)->only(['index', 'show'])->names('website.product');
+Route::apiResource('collection', \App\Http\Controllers\API\CollectionController::class)->only(['index', 'show'])->names('website.collection');
 Route::get('/cities', function(Request $request){
     $cites = City::query()->where('state_id', $request->state_id)->select('id', 'name','state_id')->get();
     return response()->json($cites);
